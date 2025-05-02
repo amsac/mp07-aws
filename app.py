@@ -49,5 +49,5 @@ iface = gr.Interface(fn = predict_death_event,
                          description = description,
                          allow_flagging='never')
 
-iface.launch(server_name="0.0.0.0", server_port=7860) 
+iface.launch(share=True) 
 
