@@ -1,28 +1,23 @@
-# Use an official Python base image
-FROM python:3.11-slim
+# Use a Python base image (adjust version if needed, e.g., python:3.8-slim based on notebook)
+FROM python:3.9-slim
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy your requirements.txt first (for better cache)
+# Copy the requirements file first to leverage Docker cache
 COPY requirements.txt .
 
-# Install the dependencies
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of your app files (Python script, model file, etc.)
+# Copy the rest of the application code and the model
 COPY . .
 
-# Expose the port Gradio runs on
-EXPOSE 7860
+# Expose the port Gradio will run on (defined in app.py's launch command)
+EXPOSE 8001
 
-# Command to run your app
+# Expose the port Prometheus metrics will be served on (defined in start_http_server)
+EXPOSE 8000
+
+# Command to run the application when the container starts
 CMD ["python", "app.py"]
-
-
-
-# # Build the docker image
-# docker build -t gradio-app .
-
-# # Run the docker container
-# docker run -p 7860:7860 gradio-app
